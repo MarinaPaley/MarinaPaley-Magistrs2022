@@ -5,10 +5,10 @@ namespace Domain.Test
 {
     using Domain;
 
-    [TestFixture]
     /// <summary>
     /// Тесты для класса Автор.
     /// </summary>
+    [TestFixture]
     public class AuthorTests
     {
         /// <summary>
