@@ -12,14 +12,29 @@ namespace Domain
         /// <summary>
         /// Инициализирует новый экземпляр класса <see cref="Author"/>.
         /// </summary>
-        /// <param name="firstName"> Фамилия.</param>
-        /// <param name="lastName"> Имя.</param>
+        /// <param name="firstName">Имя.</param>
+        /// <param name="lastName"> Фамилия.</param>
         /// <param name="middleName"> Отчество.</param>
-        public Author(string lastName, string firstName, string? middleName)
+        public Author(string lastName, string firstName, string? middleName = null)
         {
-            this.Id = default; // new Guid();
-            this.FirstName = firstName ?? throw new ArgumentNullException(nameof(firstName));
-            this.LastName = lastName ?? throw new ArgumentNullException(nameof(lastName));
+            this.Id = Guid.NewGuid();
+            if (string.IsNullOrWhiteSpace(firstName))
+            {
+                throw new ArgumentNullException(nameof(firstName));
+            }
+
+            if (string.IsNullOrWhiteSpace(lastName))
+            {
+                throw new ArgumentNullException(nameof(lastName));
+            }
+
+            if ((middleName?.Trim())?.Length == 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(middleName));
+            }
+
+            this.FirstName = firstName;
+            this.LastName = lastName;
             this.MiddleName = middleName;
             if (this.MiddleName is not null)
             {
@@ -35,7 +50,7 @@ namespace Domain
             else
             {
                 this.FullName =
-                string.Concat(this.LastName, " ", this.FirstName[0], ". ");
+                string.Concat(this.LastName, " ", this.FirstName[0], ".");
             }
         }
 

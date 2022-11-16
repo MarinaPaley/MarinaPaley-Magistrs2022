@@ -16,15 +16,20 @@ namespace Domain
         /// <param name="authors">Авторы.</param>
         public Book(string title, ISet<Author> authors)
         {
-            this.Title = title ?? throw new ArgumentNullException(nameof(title));
+            if (string.IsNullOrEmpty(title))
+            {
+                throw new ArgumentNullException(nameof(title));
+            }
+
+            this.Title = title;
             this.Authors = authors ?? throw new ArgumentNullException(nameof(authors));
         }
 
         /// <summary>
         /// Инициализирует новый экземпляр класса <see cref="Book"/>.
         /// </summary>
-        /// <param name="title"></param>
-        /// <param name="authors"></param>
+        /// <param name="title">Титул. </param>
+        /// <param name="authors">Авторы. </param>
         public Book(string title, params Author[] authors)
             : this(title, new HashSet<Author>(authors))
         {
@@ -48,7 +53,7 @@ namespace Domain
         /// <summary>
         /// Полка.
         /// </summary>
-        public Shelf Shelf { get; set; }
+        public Shelf? Shelf { get; set; }
 
         /// <inheritdoc cref="object.ToString()"/>
         public override string ToString()
