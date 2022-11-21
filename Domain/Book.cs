@@ -21,6 +21,7 @@ namespace Domain
                 throw new ArgumentNullException(nameof(title));
             }
 
+            this.Id = Guid.NewGuid();
             this.Title = title;
             this.Authors = authors ?? throw new ArgumentNullException(nameof(authors));
         }
@@ -35,25 +36,30 @@ namespace Domain
         {
         }
 
+        [Obsolete("For ORM only")]
+        protected Book()
+        {
+        }
+
         /// <summary>
         /// Идентификатор.
         /// </summary>
-        public Guid Id { get; }
+        public virtual Guid Id { get; }
 
         /// <summary>
         /// Титул.
         /// </summary>
-        public string Title { get; }
+        public virtual string Title { get; }
 
         /// <summary>
         /// Авторы.
         /// </summary>
-        public ISet<Author> Authors { get; } = new HashSet<Author>();
+        public virtual ISet<Author> Authors { get; } = new HashSet<Author>();
 
         /// <summary>
         /// Полка.
         /// </summary>
-        public Shelf? Shelf { get; set; }
+        public virtual Shelf? Shelf { get; set; }
 
         /// <inheritdoc cref="object.ToString()"/>
         public override string ToString()
@@ -62,7 +68,7 @@ namespace Domain
         }
 
         /// <inheritdoc/>
-        public bool Equals(Book? other)
+        public virtual bool Equals(Book? other)
         {
             return Equals(this.Id, other?.Id);
         }

@@ -113,6 +113,7 @@ namespace Domain.Test
         /// <summary>
         /// Добавление книг автору.
         /// </summary>
+        [Test]
         public void AddBook_ValidData_Success()
         {
             // Arrange

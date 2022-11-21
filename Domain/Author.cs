@@ -54,35 +54,40 @@ namespace Domain
             }
         }
 
+        [Obsolete("For ORM only")]
+        protected Author()
+        {
+        }
+
         /// <summary>
         /// Идентификатор.
         /// </summary>
-        public Guid Id { get; }
+        public virtual Guid Id { get; }
 
         /// <summary>
         /// Фамилия.
         /// </summary>
-        public string FirstName { get; }
+        public virtual string FirstName { get; }
 
         /// <summary>
         /// Имя.
         /// </summary>
-        public string LastName { get; }
+        public virtual string LastName { get; }
 
         /// <summary>
         /// Отчество.
         /// </summary>
-        public string? MiddleName { get; }
+        public virtual string? MiddleName { get; }
 
         /// <summary>
         /// Полное имя.
         /// </summary>
-        public string FullName { get; }
+        public virtual string FullName { get; }
 
         /// <summary>
         /// Книга.
         /// </summary>
-        public ISet<Book> Books { get; } = new HashSet<Book>();
+        public virtual ISet<Book> Books { get; } = new HashSet<Book>();
 
         /// <summary>
         /// Добавить книгу.
@@ -92,7 +97,7 @@ namespace Domain
         /// <see langword="null"/>. </exception>
         /// <returns> <see langword="true"/>, если добавили,
         /// иначе – <see langword="false"/>. </returns>
-        public bool AddBook(Book book)
+        public virtual bool AddBook(Book book)
         {
             if (book == null)
             {
@@ -128,7 +133,7 @@ namespace Domain
             => this.Id.GetHashCode();
 
         /// <inheritdoc/>
-        public bool Equals(Author? other)
+        public virtual bool Equals(Author? other)
         {
             return Equals(this.Id, other?.Id);
         }

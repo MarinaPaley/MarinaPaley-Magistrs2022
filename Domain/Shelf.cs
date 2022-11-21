@@ -18,20 +18,25 @@ namespace Domain
             this.Number = number;
         }
 
+        [Obsolete("For ORM only")]
+        protected Shelf()
+        {
+        }
+
         /// <summary>
         /// Идентификатор.
         /// </summary>
-        public Guid Id { get; }
+        public virtual Guid Id { get; }
 
         /// <summary>
         /// Номер полки.
         /// </summary>
-        public int Number { get; }
+        public virtual int Number { get; }
 
         /// <summary>
         /// Книги.
         /// </summary>
-        public ISet<Book> Books { get; } = new HashSet<Book>();
+        public virtual ISet<Book> Books { get; } = new HashSet<Book>();
 
         /// <summary>
         /// Положить книгу на полку.
@@ -41,7 +46,7 @@ namespace Domain
         /// <see langword="null"/>. </exception>
         /// <returns> <see langword="true"/>, если положили,
         /// иначе – <see langword="false"/>. </returns>
-        public bool PutBook(Book book)
+        public virtual bool PutBook(Book book)
         {
             if (book == null)
             {
@@ -59,7 +64,7 @@ namespace Domain
         }
 
         /// <inheritdoc/>
-        public bool Equals(Shelf? other)
+        public virtual bool Equals(Shelf? other)
         {
             return Equals(this.Id, other?.Id);
         }
