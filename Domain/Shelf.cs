@@ -60,7 +60,7 @@ namespace Domain
         /// <inheritdoc cref="object.ToString()"/>
         public override string ToString()
         {
-            return $"{this.Number}, {string.Join(", ", this.Books)}";
+            return $"{"Полка - "}{this.Number}, {string.Join(", ", this.Books)}";
         }
 
         /// <inheritdoc/>

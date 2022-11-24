@@ -1,4 +1,8 @@
-﻿namespace Domain.Tests
+﻿// <copyright file="BookTests.cs" company="Васильева Марина Алексеевна">
+// Copyright (c) Васильева Марина Алексеевна 2022. Учебные материалы.
+// </copyright>
+
+namespace Domain.Tests
 {
     using System.Collections;
 
@@ -60,7 +64,7 @@
             var author1 = new Author("Ильф", "Илья", "Арнольдович");
             var author2 = new Author("Петров", "Евгений", "Петрович");
             var book = new Book("12 Стульев", author1, author2);
-            var expected = "12 Стульев, Ильф И. А., Петров Е. П.";
+            var expected = "книга - 12 Стульев, Ильф И. А., Петров Е. П.";
 
             // Act
             var actual = book.ToString();

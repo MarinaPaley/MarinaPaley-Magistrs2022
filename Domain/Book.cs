@@ -64,7 +64,7 @@ namespace Domain
         /// <inheritdoc cref="object.ToString()"/>
         public override string ToString()
         {
-            return $"{this.Title}, {string.Join(", ", this.Authors)}";
+            return $"{"книга - "}{this.Title}, {string.Join(", ", this.Authors)}";
         }
 
         /// <inheritdoc/>
