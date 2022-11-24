@@ -36,7 +36,7 @@ namespace Domain.Test
             shelf.PutBook(book2);
 
             // Assert
-            Assert.IsTrue(result);
+            Assert.That(result, Is.True);
             Assert.That(shelf.Books, Has.Count.EqualTo(2));
         }
 
