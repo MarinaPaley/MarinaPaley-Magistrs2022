@@ -11,5 +11,15 @@ shelf.PutBook(book);
 Console.WriteLine(shelf.ToString(), book);
 
 var settings = new Settings();
-settings.AddDabaseServer(@"Имя подключения в SSMS");
+settings.AddDabaseServer(@"4422WS19");
 settings.AddDatabaseName("Library");
+
+using var sessionFactory = Configurator.GetSessionFactory(settings, showSql: true);
+
+using (var session = sessionFactory.OpenSession())
+{
+    session.Save(shelf);
+    session.Save(book);
+    session.Save(author);
+    session.Flush();
+};
