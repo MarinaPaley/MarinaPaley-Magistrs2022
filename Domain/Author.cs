@@ -7,69 +7,105 @@ namespace Domain
     /// <summary>
     /// Автор.
     /// </summary>
-    public class Author
+    public class Author : IEquatable<Author>
     {
-        private string fullName;
-
         /// <summary>
         /// Инициализирует новый экземпляр класса <see cref="Author"/>.
         /// </summary>
-        /// <param name="firstName"> Фамилия.</param>
-        /// <param name="lastName"> Имя.</param>
+        /// <param name="firstName">Имя.</param>
+        /// <param name="lastName"> Фамилия.</param>
         /// <param name="middleName"> Отчество.</param>
-        public Author(string firstName, string lastName, string? middleName)
+        public Author(string lastName, string firstName, string? middleName = null)
         {
-            this.FirstName = firstName ?? throw new ArgumentNullException(nameof(firstName));
-            this.LastName = lastName ?? throw new ArgumentNullException(nameof(lastName));
+            this.Id = Guid.NewGuid();
+            if (string.IsNullOrWhiteSpace(firstName))
+            {
+                throw new ArgumentNullException(nameof(firstName));
+            }
+
+            if (string.IsNullOrWhiteSpace(lastName))
+            {
+                throw new ArgumentNullException(nameof(lastName));
+            }
+
+            if ((middleName?.Trim())?.Length == 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(middleName));
+            }
+
+            this.FirstName = firstName;
+            this.LastName = lastName;
             this.MiddleName = middleName;
-            this.fullName = this.FullName;
+            if (this.MiddleName is not null)
+            {
+                this.FullName =
+                string.Concat(
+                    this.LastName,
+                    " ",
+                    this.FirstName[0],
+                    ". ",
+                    this.MiddleName[0],
+                    ".");
+            }
+            else
+            {
+                this.FullName =
+                string.Concat(this.LastName, " ", this.FirstName[0], ".");
+            }
+        }
+
+        [Obsolete("For ORM only")]
+        protected Author()
+        {
         }
 
         /// <summary>
         /// Идентификатор.
         /// </summary>
-        public Guid Id { get; }
+        public virtual Guid Id { get; }
 
         /// <summary>
         /// Фамилия.
         /// </summary>
-        public string FirstName { get; }
+        public virtual string FirstName { get; }
 
         /// <summary>
         /// Имя.
         /// </summary>
-        public string LastName { get; }
+        public virtual string LastName { get; }
 
         /// <summary>
         /// Отчество.
         /// </summary>
-        public string? MiddleName { get; }
+        public virtual string? MiddleName { get; }
 
         /// <summary>
         /// Полное имя.
         /// </summary>
-        public string FullName
+        public virtual string FullName { get; }
+
+        /// <summary>
+        /// Книга.
+        /// </summary>
+        public virtual ISet<Book> Books { get; } = new HashSet<Book>();
+
+        /// <summary>
+        /// Добавить книгу.
+        /// </summary>
+        /// <param name="book"> Кгига. </param>
+        /// <exception cref="ArgumentNullException"> Вставляемый элемент –
+        /// <see langword="null"/>. </exception>
+        /// <returns> <see langword="true"/>, если добавили,
+        /// иначе – <see langword="false"/>. </returns>
+        public virtual bool AddBook(Book book)
         {
-            get => this.fullName;
-            set
+            if (book == null)
             {
-                if (this.MiddleName is not null)
-                {
-                    this.fullName =
-                    string.Concat(
-                        this.LastName,
-                        " ",
-                        this.FirstName[0],
-                        ". ",
-                        this.MiddleName[0],
-                        ".");
-                }
-                else
-                {
-                    this.fullName =
-                    string.Concat(this.LastName, " ", this.FirstName[0], ". ");
-                }
+                throw new ArgumentNullException(nameof(book));
             }
+
+            book.Authors.Add(this);
+            return this.Books.Add(book);
         }
 
         /// <inheritdoc/>
@@ -95,5 +131,11 @@ namespace Domain
         /// <inheritdoc/>
         public override int GetHashCode()
             => this.Id.GetHashCode();
+
+        /// <inheritdoc/>
+        public virtual bool Equals(Author? other)
+        {
+            return Equals(this.Id, other?.Id);
+        }
     }
 }
